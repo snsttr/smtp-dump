@@ -1,0 +1,16 @@
+{
+  "name": "smtp-dump",
+  "version": "0.0.1",
+  "description": "SMTP Server that outputs all receiving mails",
+  "main": "smtp-dump.js",
+  "scripts": {
+    "start": "node smtp-dump.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tim Steufmehl <steufmehl@enet.eu>",
+  "license": "MIT",
+  "dependencies": {
+    "dateformat": "^2.0.0",
+    "smtp-server": "^1.17.0"
+  }
+}
