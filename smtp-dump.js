@@ -7,8 +7,8 @@ var argv = require('minimist')(process.argv.slice(2)),
 // default values
 var config = {
     output: 'output',
-    logger: false,
-    port:   25
+    port:   25,
+    logger: false
 };
 
 // overwrite default config values with arguments
@@ -31,10 +31,10 @@ var server = new SMTPServer({
             }
         }
 
-        // filename will consist of DateTime ...
+        // filename will consist of current DateTime ...
         var filename = dateFormat(new Date(), 'yyyy-mm-dd HH-MM-ss');
         if(session.envelope.rcptTo.length >= 1) {
-            // ... and first recipient if existent
+            // ... and first recipient E-Mail-Adress if existent
             filename += ' ' + session.envelope.rcptTo[0].address;
         }
 
