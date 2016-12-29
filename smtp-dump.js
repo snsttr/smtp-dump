@@ -1,34 +1,49 @@
 // imports
-var SMTPServer = require('smtp-server').SMTPServer,
+var argv = require('minimist')(process.argv.slice(2)),
+    SMTPServer = require('smtp-server').SMTPServer,
     fs = require('fs'),
     dateFormat = require('dateformat');
 
-var outputDir = 'output';
+// default values
+var config = {
+    output: 'output',
+    logger: false,
+    port:   25
+};
 
-// create output directory if it does not exist yet
-try {
-    fs.mkdirSync(outputDir);
-} catch(e) {
-    if ( e.code != 'EEXIST' ) throw e;
-}
+// overwrite default config values with arguments
+Object.assign(config, argv);
 
 // create new STMP Server instance with given configuration
 var server = new SMTPServer({
     secure: false,
-	name: 'localhost',
-	authOptional: true,
-	logger: true,
-	onData: function(stream, session, callback) {
+    name: 'localhost',
+    authOptional: true,
+    logger: config.logger,
+    onData: function(stream, session, callback) {
+        // create output directory if it does not exist yet
+        try {
+            fs.mkdirSync(config.output);
+        }
+        catch (e) {
+            if (e.code !== 'EEXIST') {
+                throw e;
+            }
+        }
+
+        // filename will consist of DateTime ...
         var filename = dateFormat(new Date(), 'yyyy-mm-dd HH-MM-ss');
         if(session.envelope.rcptTo.length >= 1) {
+            // ... and first recipient if existent
             filename += ' ' + session.envelope.rcptTo[0].address;
         }
 
-		var dump = fs.createWriteStream(outputDir + '/' + filename  + '.txt');
-		stream.pipe(dump);
+        // write mail to file
+        var dump = fs.createWriteStream(config.output + '/' + filename  + '.txt');
+        stream.pipe(dump);
         stream.on('end', callback);
-	}
+    }
 });
 
 // Server listens on localhost:25
-server.listen(25);
+server.listen(config.port);
