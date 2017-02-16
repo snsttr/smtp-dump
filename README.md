@@ -1,17 +1,20 @@
 # smtp-dump
-This tool provides a Node.js SMTP Server that dumps all received mails to disk. It can be used to test SMTP Clients or
+This tool provides a Node.js SMTP Server that dumps all mails to disk. It can be used to test SMTP Clients or
 simulate SMTP Servers for Development reasons.
 
 ## Installation
-After cloning the repository
 
+    git clone https://github.com/snsttr/smtp-dump.git
+    cd smtp-dump
     npm install
 
 ## Usage
 
     node smtp-dump.js
 
-smtp-dump.js will write out all E-Mails into the specified output folder (default `./output`) while running.
+smtp-dump.js will write out all E-Mails into the default output folder `./output` while running. The E-Mail will __not be
+send__ to the destination Mail Server.
+
 The SMTP Server does not require a username and/or a password. Also secure connections are not possible, yet.
 
 ### optional Arguments
@@ -26,7 +29,7 @@ Creates the directory if it does not exist.
 
 Specify the port for the SMTP Server by passing a number (1 - 65536) to `--port` (default Port is `25`)
 
-    node smtp-dump.js --port=dump
+    node smtp-dump.js --port=10025
     
 Debugging ouput (console) is enabled if you use `--logger` (default is disabled).
     
