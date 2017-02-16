@@ -1,7 +1,7 @@
 {
   "name": "smtp-dump",
   "version": "0.0.2",
-  "description": "SMTP Server that outputs all receiving mails",
+  "description": "SMTP Server that dumps all receiving mails to disk",
   "main": "smtp-dump.js",
   "scripts": {
     "start": "node smtp-dump.js",
